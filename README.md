@@ -35,24 +35,42 @@ The project demonstrates how database systems can provide accountability, tracea
 
 ```text
 CineVerse/
-│
-├── db/                     # Database scripts and PL/SQL logic
-│   ├── schema/             # Database schema definitions
-│   ├── audit/              # Audit tables and triggers
-│   └── seed/               # Initial or sample data
-│
-├── server/                 # Backend REST API
-│
-├── client/                 # Next.js frontend application
-│
-├── docs/                   # Project documentation
-│   ├── diagrams/           # ER diagrams and system diagrams
-│   └── report/             # Academic project report
-│
+├── db/                  # SQL scripts, run in number order (run_all.sql runs them all)
+├── scripts/             # reset-db.sh and reset-db.ps1
+├── server/              # Express API (coming later)
+├── client/              # Next.js GUI (coming later)
+├── docs/                # setup guide, diagrams, report
+├── docker-compose.yml
+├── .env.example
 └── README.md
 ```
 
-*Note: The subfolders above illustrate the intended organization; adjust them to match the actual repository structure.*
+## 🚀 Getting Started
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/FayroSyrup/CineVerse.git
+cd CineVerse
+```
+
+### 2. Start Oracle Database
+Open Docker Desktop first and wait until it is running.
+```bash
+cp .env.example .env
+docker compose up -d
+docker logs -f cineverse-oracle
+```
+Wait for `DATABASE IS READY TO USE!`, then press Ctrl+C. The first start downloads about 1.3 GB.
+
+### 3. Build the database
+```bash
+bash scripts/reset-db.sh          # Git Bash
+.\scripts\reset-db.ps1            # PowerShell
+```
+This runs `db/run_all.sql` in this order: drop old objects, create tables, load sample data, create audit tables, create triggers. Sample data loads before the triggers so the audit log starts clean.
+
+### 4. Backend and frontend
+Coming in a later phase.
 
 ## 🏗️ System Architecture
 
